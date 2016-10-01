@@ -41,13 +41,13 @@ public class FileWatcher implements Runnable {
 		WatchService watcher;
 		try {
 			watcher = FileSystems.getDefault().newWatchService();
-			dir.register(watcher, new Kind[]{
-					StandardWatchEventKinds.ENTRY_CREATE,	// 作成
-					StandardWatchEventKinds.ENTRY_MODIFY,	// 変更
-					StandardWatchEventKinds.ENTRY_DELETE,	// 削除
-					StandardWatchEventKinds.OVERFLOW		// 特定不能時
-					}
-			);
+			dir.register(watcher,
+					new Kind[] {
+							StandardWatchEventKinds.ENTRY_CREATE, // 作成
+							StandardWatchEventKinds.ENTRY_MODIFY, // 変更
+							StandardWatchEventKinds.ENTRY_DELETE, // 削除
+							StandardWatchEventKinds.OVERFLOW // 特定不能時
+					});
 
 			while (true) {
 				WatchKey watchKey = watcher.take();
@@ -65,11 +65,11 @@ public class FileWatcher implements Runnable {
 							System.out.println("終了キーとなるファイルが作成されたので、クローズ処理を行います・・・");
 							return;
 						}
-					} else if(kind == StandardWatchEventKinds.ENTRY_MODIFY){
+					} else if (kind == StandardWatchEventKinds.ENTRY_MODIFY) {
 						System.out.println(name.toString() + "が変更されました。 (" + date.toString() + " - " + child + ")");
-					} else if(kind == StandardWatchEventKinds.ENTRY_DELETE){
+					} else if (kind == StandardWatchEventKinds.ENTRY_DELETE) {
 						System.out.println(name.toString() + "が削除されました。 (" + date.toString() + " - " + child + ")");
-					} else if(kind == StandardWatchEventKinds.OVERFLOW){
+					} else if (kind == StandardWatchEventKinds.OVERFLOW) {
 						continue;
 					}
 					watchKey.reset();
@@ -80,7 +80,6 @@ public class FileWatcher implements Runnable {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 }
